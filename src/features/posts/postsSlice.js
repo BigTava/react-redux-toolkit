@@ -1,8 +1,4 @@
-import {
-  createSlice,
-  createSelector,
-  createEntityAdapter,
-} from "@reduxjs/toolkit";
+import { createSelector, createEntityAdapter } from "@reduxjs/toolkit";
 import { sub } from "date-fns";
 import { apiSlice } from "../api/apiSlice";
 
@@ -108,6 +104,8 @@ export const extendedApiSlice = apiSlice.injectEndpoints({
         // so that a user can't do the same reaction more than once
         body: { reactions },
       }),
+      // Updates our catch optimisticly since the network request is sent after the cache is updated.
+      // Advantages: the ui is updates instantly
       async onQueryStarted(
         { postId, reactions },
         { dispatch, queryFulfilled }
